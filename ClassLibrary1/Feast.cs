@@ -97,7 +97,7 @@ namespace Zamirathe_Feast
                 {
                     c.y += (float)UnityEngine.Random.Range(1, (int)feast.Configuration.skyRadius);
                 }
-                Item g = new Item((ushort)num2);
+                Item g = new Item((ushort)num2, true);
                 ItemManager.dropItem(g, c, false, true, true);
                 list.RemoveAt(item);
             }
