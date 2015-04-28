@@ -88,7 +88,7 @@ namespace Zamirathe_Feast
             }
             for (int i = 0; i < num; i++)
             {
-                int item = UnityEngine.Random.Range(0, list.Count-1);
+                int item = UnityEngine.Random.Range(0, list.Count);
                 int num2 = list[item];
                 Vector3 c = feast.nextLocation.Pos();
                 c.x += (float)UnityEngine.Random.Range((int)feast.Configuration.dropRadius * -1, (int)feast.Configuration.dropRadius+1);
