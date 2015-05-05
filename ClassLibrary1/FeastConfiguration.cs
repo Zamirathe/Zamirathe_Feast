@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 namespace Zamirathe_Feast
 {
-	public class FeastConfiguration : RocketConfiguration
+	public class FeastConfiguration : IRocketConfiguration
 	{
 		public bool Enabled;
 		public int minDropTime;
@@ -24,7 +24,7 @@ namespace Zamirathe_Feast
         public List<FeastItem> Items;
 		public string msgComingFeast;
 		public string msgNowFeast;
-		public RocketConfiguration DefaultConfiguration
+		public IRocketConfiguration DefaultConfiguration
 		{
 			get
 			{
