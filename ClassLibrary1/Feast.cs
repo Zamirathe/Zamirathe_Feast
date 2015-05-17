@@ -1,5 +1,7 @@
-using Rocket.RocketAPI;
-using Rocket.Logging;
+using Rocket.API;
+using Rocket.Unturned;
+using Rocket.Unturned.Logging;
+using Rocket.Unturned.Plugins;
 using SDG;
 using System;
 using System.Collections.Generic;
@@ -113,13 +115,13 @@ namespace Zamirathe_Feast
                     byte b = feast.msgNum;
                     if (b != 0)
                     {
-                        RocketChatManager.Say(string.Format(feast.Configuration.msgComingFeast, feast.nextLocation.Name(), feast.msgNum));
+                        RocketChat.Say(string.Format(feast.Configuration.msgComingFeast, feast.nextLocation.Name(), feast.msgNum));
                         feast.lastMsg = DateTime.Now;
                         feast.msgNum -= 1;
                     }
                     else
                     {
-                        RocketChatManager.Say(string.Format(feast.Configuration.msgNowFeast, feast.nextLocation.Name()));
+                        RocketChat.Say(string.Format(feast.Configuration.msgNowFeast, feast.nextLocation.Name()));
                         feast.lastMsg = DateTime.Now;
                         feast.runFeast();
                     }

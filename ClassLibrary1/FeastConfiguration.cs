@@ -1,10 +1,10 @@
-using Rocket.RocketAPI;
+using Rocket.API;
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 namespace Zamirathe_Feast
 {
-	public class FeastConfiguration : IRocketConfiguration
+	public class FeastConfiguration : IRocketPluginConfiguration
 	{
 		public bool Enabled;
 		public int minDropTime;
@@ -24,7 +24,7 @@ namespace Zamirathe_Feast
         public List<FeastItem> Items;
 		public string msgComingFeast;
 		public string msgNowFeast;
-		public IRocketConfiguration DefaultConfiguration
+		public IRocketPluginConfiguration DefaultConfiguration
 		{
 			get
 			{
