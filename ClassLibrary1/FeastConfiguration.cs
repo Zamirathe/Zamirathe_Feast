@@ -15,12 +15,6 @@ namespace Zamirathe_Feast
         public bool skyDrop;
         public byte skyRadius;
         [XmlArray("Items"), XmlArrayItem("FeastItem")]
-        /*public List<FeastItem> Items = new List<FeastItem>
-                    {
-                        new FeastItem(66, "Cloth", 10, new List<string>
-                        {
-                            "all"
-                        })};*/
         public List<FeastItem> Items;
 		public string msgComingFeast;
 		public string msgNowFeast;

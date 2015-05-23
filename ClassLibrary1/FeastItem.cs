@@ -5,12 +5,12 @@ namespace Zamirathe_Feast
 {
 	public class FeastItem
 	{
-		public int Id;
+		public ushort Id;
 		public string Name;
 		public byte Chance;
 		[XmlArray(ElementName = "Locations")]
 		public List<string> Location;
-		public FeastItem(int id, string name, byte chance, List<string> locs)
+		public FeastItem(ushort id, string name, byte chance, List<string> locs)
 		{
 			this.Id = id;
 			this.Name = name;

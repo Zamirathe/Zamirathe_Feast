@@ -54,6 +54,11 @@ namespace Zamirathe_Feast
             foreach (FeastItem f in this.Configuration.Items)
             {
                 usedlocs = usedlocs.Concat(f.Location).ToList();
+                ItemAsset itemAsset = (ItemAsset)Assets.find(EAssetType.Item, f.Id);
+                if (itemAsset == null || itemAsset.Cosmetic)
+                {
+                    this.Configuration.Items.Remove(f);
+                }
             }
             List<string> locations = usedlocs.Distinct().ToList();
             if (locations.Contains("all") || locations.Contains("All"))
