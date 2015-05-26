@@ -14,6 +14,7 @@ namespace Zamirathe_Feast
         private DateTime lastFeast;
         private DateTime nextFeast;
         private List<Locs> locations;
+        private List<FeastItem> items;
         private Locs nextLocation;
         private byte msgNum;
         private DateTime lastMsg;
@@ -50,16 +51,16 @@ namespace Zamirathe_Feast
             {
                 Logger.Log("Failed to load the configuration file.  Turned off feast.  Restart to try again.");
                 return;
-            };            
+            };
+            List<FeastItem> items = new List<FeastItem>();
             foreach (FeastItem f in this.Configuration.Items)
             {
                 usedlocs = usedlocs.Concat(f.Location).ToList();
                 ItemAsset itemAsset = (ItemAsset)Assets.find(EAssetType.Item, f.Id);
-                if (itemAsset == null || itemAsset.Cosmetic)
-                {
-                    this.Configuration.Items.Remove(f);
-                }
+                if (itemAsset != null && !itemAsset.Cosmetic)
+                    items.Add(f);
             }
+            this.items = items;
             List<string> locations = usedlocs.Distinct().ToList();
             if (locations.Contains("all") || locations.Contains("All"))
             {
@@ -83,7 +84,7 @@ namespace Zamirathe_Feast
             Feast feast = Feast.instance;
             int num = UnityEngine.Random.Range((int)feast.Configuration.minItemsDrop, (int)feast.Configuration.maxItemsDrop+1);
             List<int> list = new List<int>();
-            foreach (FeastItem current in feast.Configuration.Items)
+            foreach (FeastItem current in feast.items)
             {
                 if (current.Location.Contains(feast.nextLocation.Name()) || !current.Location.Contains("all") || !current.Location.Contains("All")) 
                 {
