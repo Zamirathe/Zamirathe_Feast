@@ -7,8 +7,8 @@
     <ProjectGuid>{8C483334-8852-48FA-90A6-CE43972D5A6D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Zamirathe_Feast</RootNamespace>
-    <AssemblyName>Zamirathe_Feast</AssemblyName>
+    <RootNamespace>ZaupFeast</RootNamespace>
+    <AssemblyName>ZaupFeast</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -69,8 +69,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Feast.cs" />
-    <Compile Include="FeastConfiguration.cs" />
+    <Compile Include="ZaupFeast.cs" />
+    <Compile Include="ZaupFeastConfiguration.cs" />
     <Compile Include="FeastItem.cs" />
     <Compile Include="Locs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
