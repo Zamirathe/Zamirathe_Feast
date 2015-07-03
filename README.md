@@ -3,6 +3,7 @@ Feast Mod for Unturned requiring Rocket
 
 Here is my take on the old Feast that was available for 2.2.5.  My version, you have a little bit more configuration options. I have included a folder with a default configuration file.  Please use it and modify it.  An example I used during testing is provided below as well.
 
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <FeastConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Enabled>true</Enabled>
@@ -105,6 +106,8 @@ Here is my take on the old Feast that was available for 2.2.5.  My version, you 
   <msgComingFeast>The feast is beginning at {0} in {1} minutes!</msgComingFeast>
   <msgNowFeast>The feast is now at {0}!</msgNowFeast>
 </FeastConfiguration>
+```
+
 Most of these should be self explanatory.
 
 enabled: set to false if you really want to turn the feast off but not remove it from your server.
