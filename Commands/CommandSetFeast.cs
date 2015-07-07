@@ -30,7 +30,7 @@ namespace Zamirathe_Feast.Commands
         {
             get
             {
-                return "Set the next feast to location. Use parameter";
+                return "Set the next feast to location. Use parameter f to force a location not in config.";
             }
         }
         public string Syntax
@@ -93,12 +93,12 @@ namespace Zamirathe_Feast.Commands
                     loc locReturn = CheckLoc(location);
                     if (locReturn.isMapLocation)
                     {
-                        Utils.Respond(caller, "Forcing feast location of " + location);
+                        Utils.Respond(caller, "Forcing feast location of " + location+".");
                         feast.setNextLocation(locReturn.listLoc);
                     }
                     else
                     {
-                        Utils.Respond(caller, "Location not on map!");
+                        Utils.Respond(caller, "Location not on map.");
                     }
 
                 }

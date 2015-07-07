@@ -28,7 +28,7 @@ namespace Zamirathe_Feast.Commands{
         {
             get
             {
-                return "Immediately starts the feast";
+                return "Immediately starts the feast.";
             }
         }
         public string Syntax
@@ -42,7 +42,7 @@ namespace Zamirathe_Feast.Commands{
         // Run the command.
         public void Execute(RocketPlayer caller, string[] command)
         {
-            Utils.Respond(caller, "Starting the feast");
+            Utils.Respond(caller, "Starting the feast.");
             Feast feast = Feast.Instance;
             feast.runFeast();
         }
