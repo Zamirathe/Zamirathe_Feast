@@ -122,11 +122,17 @@ All items are set to be removed when Unturned itself looks to sweep items that h
 
 ## Commands ##
 This version of ZaupFeast features three new commands courtesy of nicholaiii <nicholainissen@gmail.com>. 
+
 **ResetFeast**: Resets the Feast, resetting time and locations as according to your settings, as if it has just been run. *Alias: freset*
+
 *Example usage*: `/resetfeast
+
 **RunFeast**: Starts the Feast immediately at the  chosen location. *Alias: frun* 
+
 *Example usage*: `/runfeast
+
 **SetFeast**: Sets the desired location of the feast. Use the f parameter to force a location that is not included in the config. *Alias: fset*
+
 *Example usage*: `/setfeast f SomeTown
 
 *If you delete the configuration file, the system will recreate it on a restart but it will print a warning that it could not find it and disable the feast.  Just edit your config and restart the server. *
