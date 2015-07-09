@@ -87,7 +87,7 @@ namespace Zamirathe_Feast
             List<int> list = new List<int>();
             foreach (FeastItem current in feast.items)
             {
-                if (current.Location.Contains(feast.nextLocation.Name()) || !current.Location.Contains("all") || !current.Location.Contains("All")) 
+                if (current.Location.Contains(feast.nextLocation.Name()) || current.Location.Contains("all") || current.Location.Contains("All")) 
                 {
                     for (byte b = 0; b < current.Chance; b += 1)
                     {
