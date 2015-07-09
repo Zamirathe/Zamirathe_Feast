@@ -1,4 +1,4 @@
-# Zamirathe_Feast
+# ZaupFeast
 Feast Mod for Unturned requiring Rocket
 
 Here is my take on the old Feast that was available for 2.2.5.  My version, you have a little bit more configuration options. I have included a folder with a default configuration file.  Please use it and modify it.  An example I used during testing is provided below as well.
