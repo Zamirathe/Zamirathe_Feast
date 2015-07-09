@@ -20,7 +20,7 @@ namespace ZaupFeast
         public static Feast Instance;
         private DateTime nextFeast;
         private List<Locs> locations;
-        private Locs nextLocation;
+        internal Locs nextLocation;
         private byte msgNum;
         private DateTime lastMsg;
         private bool running = false;
