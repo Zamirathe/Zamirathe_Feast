@@ -15,7 +15,6 @@ namespace ZaupFeast
         public bool SkyDrop;
         public ushort PlaneEffectId;
         public ushort SkydropEffectId;
-        public ushort SkydropCrateId;
         public string MessageColor;
         [XmlArray("Items"), XmlArrayItem("FeastItem")]
         public List<FeastItem> Items;
@@ -35,7 +34,6 @@ namespace ZaupFeast
                     SkyDrop = false,
                     PlaneEffectId = 1001,
                     SkydropEffectId = 1006,
-                    SkydropCrateId = 366,
                     MessageColor = "red",
 					Items = new List<FeastItem>
 					{
