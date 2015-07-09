@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8C483334-8852-48FA-90A6-CE43972D5A6D}</ProjectGuid>
+    <ProjectGuid>{78FEB436-7AE0-4A52-9F54-8697D1FA7DA9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ZaupFeast</RootNamespace>
     <AssemblyName>ZaupFeast</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,43 +33,42 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\lib\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Rocket.API, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Rocket.API.dll</HintPath>
+      <HintPath>..\lib\Rocket.API.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Rocket.Core, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Rocket.Core.dll</HintPath>
+      <HintPath>..\lib\Rocket.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Rocket.Unturned, Version=4.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Rocket.Unturned.dll</HintPath>
+      <HintPath>..\lib\Rocket.Unturned.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\UnityEngine.dll</HintPath>
+    <Reference Include="UnityEngine">
+      <HintPath>..\lib\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandRunFeast.cs" />
     <Compile Include="ZaupFeast.cs" />
     <Compile Include="ZaupFeastConfiguration.cs" />
     <Compile Include="FeastItem.cs" />
