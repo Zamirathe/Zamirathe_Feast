@@ -2,22 +2,24 @@ using Rocket.API;
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-namespace Zamirathe_Feast
+namespace ZaupFeast
 {
 	public class FeastConfiguration : IRocketPluginConfiguration
 	{
 		public bool Enabled;
-		public int minDropTime;
-		public int maxDropTime;
-		public byte dropRadius;
-		public byte minItemsDrop;
-		public byte maxItemsDrop;
-        public bool skyDrop;
-        public byte skyRadius;
+		public int MinDropTime;
+		public int MaxDropTime;
+		public byte DropRadius;
+		public byte MinItemsDrop;
+		public byte MaxItemsDrop;
+        public bool SkyDrop;
+        public ushort PlaneEffectId;
+        public ushort SkydropEffectId;
+        public ushort SkydropCrateId;
+        public string MessageColor;
         [XmlArray("Items"), XmlArrayItem("FeastItem")]
         public List<FeastItem> Items;
-		public string msgComingFeast;
-		public string msgNowFeast;
+
 		public IRocketPluginConfiguration DefaultConfiguration
 		{
 			get
@@ -25,13 +27,16 @@ namespace Zamirathe_Feast
 				return new FeastConfiguration
 				{
 					Enabled = true,
-					minDropTime = 600,
-					maxDropTime = 1200,
-					dropRadius = 20,
-					minItemsDrop = 10,
-					maxItemsDrop = 25,
-                    skyDrop = false,
-                    skyRadius = 10,
+					MinDropTime = 600,
+					MaxDropTime = 1200,
+					DropRadius = 20,
+					MinItemsDrop = 10,
+					MaxItemsDrop = 25,
+                    SkyDrop = false,
+                    PlaneEffectId = 1001,
+                    SkydropEffectId = 1006,
+                    SkydropCrateId = 366,
+                    MessageColor = "red",
 					Items = new List<FeastItem>
 					{
 						new FeastItem(66, "Cloth", 10, new List<string>
@@ -74,9 +79,7 @@ namespace Zamirathe_Feast
 						{
 							"all"
 						})
-					},
-					msgComingFeast = "The feast is beginning at {0} in {1} minutes!",
-					msgNowFeast = "The feast is now at {0}!"
+					}
 				};
 			}
 		}
