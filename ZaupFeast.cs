@@ -13,6 +13,7 @@ namespace Zamirathe_Feast
     {
         private DateTime lastFeast;
         private DateTime nextFeast;
+        private List<Locs> maplocations;
         private List<Locs> locations;
         private List<FeastItem> items;
         private Locs nextLocation;
@@ -36,7 +37,7 @@ namespace Zamirathe_Feast
         {
             Feast.instance = this;
             this.locations = new List<Locs>();
-            List<Locs> maplocations = new List<Locs>();
+            this.maplocations = new List<Locs>();
             if (LevelNodes.Nodes == null)
             {
                 LevelNodes.load();
@@ -79,14 +80,14 @@ namespace Zamirathe_Feast
             this.running = true;
             this.resetFeast();
         }
-        private void runFeast()
+        public void runFeast()
         {
             Feast feast = Feast.instance;
             int num = UnityEngine.Random.Range((int)feast.Configuration.minItemsDrop, (int)feast.Configuration.maxItemsDrop+1);
             List<int> list = new List<int>();
             foreach (FeastItem current in feast.items)
             {
-                if (current.Location.Contains(feast.nextLocation.Name()) || !current.Location.Contains("all") || !current.Location.Contains("All")) 
+                if (current.Location.Contains(feast.nextLocation.Name()) || current.Location.Contains("all") || current.Location.Contains("All")) 
                 {
                     for (byte b = 0; b < current.Chance; b += 1)
                     {
@@ -148,6 +149,18 @@ namespace Zamirathe_Feast
         {
             Feast feast = Feast.instance;
             if (feast.Configuration.Enabled && feast.running) feast.checkFeast();
+        }
+        public List<Locs> getMapLocations()
+        {
+            return maplocations;
+        }
+        public List<Locs> getLocations()
+        {
+            return locations;
+        }
+        public void setNextLocation(Locs loc)
+        {
+           nextLocation = loc;
         }
     }
 }
