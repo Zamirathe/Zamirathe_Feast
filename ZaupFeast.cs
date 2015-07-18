@@ -75,11 +75,11 @@ namespace ZaupFeast
 
             // Get all the map locations.
             this.locations = new List<Locs>();
-            if (LevelNodes.Nodes == null)
+            if (LevelNodes.nodes == null)
                 LevelNodes.load();
-            foreach (Node n in LevelNodes.Nodes)
+            foreach (Node n in LevelNodes.nodes)
             {
-                Locs loc = new Locs(n.Position, ((NodeLocation)n).Name);
+                Locs loc = new Locs(n.point, ((LocationNode)n).Name);
                 this.locations.Add(loc);
             }
 
@@ -88,7 +88,7 @@ namespace ZaupFeast
             foreach (FeastItem f in this.Configuration.Items)
             {
                 ItemAsset itemAsset = (ItemAsset)Assets.find(EAssetType.ITEM, f.Id);
-                if (itemAsset == null && itemAsset.Cosmetic)
+                if (itemAsset == null && itemAsset.isPro)
                 {
                     this.Configuration.Items.Remove(f);
                 }
