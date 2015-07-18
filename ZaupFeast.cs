@@ -119,6 +119,8 @@ namespace ZaupFeast
         protected override void Unload()
         {
             Feast.Instance.Timer.Close();
+            Feast.Instance.Timer2.Close();
+            Feast.Instance.DefaultTranslations.Clear();
         }
 
         internal void runFeast()
@@ -171,6 +173,11 @@ namespace ZaupFeast
             {
                 // Trigger timer for effects
                 RocketEffect plane = RocketEffectManager.GetEffectsById(Feast.Instance.Configuration.PlaneEffectId);
+                if (plane == null)
+                {
+                    Logger.Log("The skydrop plane bundle is not the server!  Cannot trigger the airdrop animation.  Just sending items.");
+                    this.spawnItems(this.items, drops);
+                }
                 Vector3 loc = new Vector3(Feast.Instance.nextLocation.Pos.x, Feast.Instance.nextLocation.Pos.y + 50, Feast.Instance.nextLocation.Pos.z + 500);
                 plane.Trigger(loc);
                 Feast.Instance.effectNum = 1;
