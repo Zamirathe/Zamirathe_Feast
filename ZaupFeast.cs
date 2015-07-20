@@ -79,8 +79,11 @@ namespace ZaupFeast
                 LevelNodes.load();
             foreach (Node n in LevelNodes.nodes)
             {
-                Locs loc = new Locs(n.point, ((LocationNode)n).Name);
-                this.locations.Add(loc);
+                if (n.NodeType == ENodeType.LOCATION)
+                {
+                    Locs loc = new Locs(n.point, ((LocationNode)n).Name);
+                    this.locations.Add(loc);
+                }
             }
 
             // Get all the locations used by the items and remove any invalid items.
