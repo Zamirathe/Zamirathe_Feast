@@ -4,10 +4,14 @@ using System.Linq;
 using System.Timers;
 using System.Xml.Serialization;
 
+using Rocket;
 using Rocket.API;
-using Rocket.Core.Tasks;
+using Rocket.API.Collections;
+using Rocket.Core.Logging;
+using Rocket.Core.Plugins;
 using Rocket.Unturned;
-using Rocket.Unturned.Logging;
+using Rocket.Unturned.Chat;
+using Rocket.Unturned.Effects;
 using Rocket.Unturned.Player;
 using Rocket.Unturned.Plugins;
 using SDG.Unturned;
@@ -31,20 +35,14 @@ namespace ZaupFeast
         private List<Item> items;
         private int numItems;
 
-        public override Dictionary<string, string> DefaultTranslations
+        public override TranslationList DefaultTranslations
         {
             get
             {
-                return new Dictionary<string, string>
+                return new TranslationList()
                 {
-                    {
-                        "coming_feast_msg",
-                        "The feast is beginning at {0} in {1} minutes!"
-                    },
-                    {
-                        "now_feast_msg",
-                        "The feast is now at {0}!"
-                    }
+                    {"coming_feast_msg","The feast is beginning at {0} in {1} minutes!"},
+                    {"now_feast_msg","The feast is now at {0}!"}
                 };
             }
         }
@@ -67,7 +65,7 @@ namespace ZaupFeast
             this.effectNum = 0;
 
             // Did we load the configuration file?  If not, just end.
-            if (this.Configuration.Items == null || !this.Configuration.Items.Any())
+            if (this.Configuration.Instance.Items == null || !this.Configuration.Instance.Items.Any())
             {
                 Logger.Log("Failed to load the configuration file.  Turned off feast.  Restart to try again.");
                 return;
@@ -88,12 +86,12 @@ namespace ZaupFeast
 
             // Get all the locations used by the items and remove any invalid items.
             List<string> usedlocs = new List<string>();
-            foreach (FeastItem f in this.Configuration.Items)
+            foreach (FeastItem f in this.Configuration.Instance.Items)
             {
                 ItemAsset itemAsset = (ItemAsset)Assets.find(EAssetType.ITEM, f.Id);
                 if (itemAsset == null && itemAsset.isPro)
                 {
-                    this.Configuration.Items.Remove(f);
+                    this.Configuration.Instance.Items.Remove(f);
                 }
                 else
                 {
@@ -123,15 +121,14 @@ namespace ZaupFeast
         {
             Feast.Instance.Timer.Close();
             Feast.Instance.Timer2.Close();
-            Feast.Instance.DefaultTranslations.Clear();
         }
 
         internal void runFeast()
         {
             // Get how many items are going to drop and setup the item id list.
-            int itemsNum = UnityEngine.Random.Range((int)Feast.Instance.Configuration.MinItemsDrop, (int)Feast.Instance.Configuration.MaxItemsDrop+1);
+            int itemsNum = UnityEngine.Random.Range((int)Feast.Instance.Configuration.Instance.MinItemsDrop, (int)Feast.Instance.Configuration.Instance.MaxItemsDrop+1);
             List<int> list = new List<int>();
-            foreach (FeastItem current in Feast.Instance.Configuration.Items)
+            foreach (FeastItem current in Feast.Instance.Configuration.Instance.Items)
             {
                 if (current.Location.Contains(Feast.Instance.nextLocation.Name) || current.Location.Contains("all") || current.Location.Contains("All")) 
                 {
@@ -157,8 +154,8 @@ namespace ZaupFeast
                 int item = UnityEngine.Random.Range(0, list.Count);
                 int num2 = list[item];
                 Vector3 pos = new Vector3();
-                pos.x += p.x + (float)UnityEngine.Random.Range((int)Feast.Instance.Configuration.DropRadius * -1, (int)Feast.Instance.Configuration.DropRadius + 1);
-                pos.z += p.z + (float)UnityEngine.Random.Range((int)Feast.Instance.Configuration.DropRadius * -1, (int)Feast.Instance.Configuration.DropRadius + 1);
+                pos.x += p.x + (float)UnityEngine.Random.Range((int)Feast.Instance.Configuration.Instance.DropRadius * -1, (int)Feast.Instance.Configuration.Instance.DropRadius + 1);
+                pos.z += p.z + (float)UnityEngine.Random.Range((int)Feast.Instance.Configuration.Instance.DropRadius * -1, (int)Feast.Instance.Configuration.Instance.DropRadius + 1);
                 pos.y += p.y + 1f;
                 Item g = new Item((ushort)num2, true);
                 //drops[i] = pos;
@@ -172,10 +169,10 @@ namespace ZaupFeast
             Feast.Instance.items = items;
             // See if skydrop is turned on.  If it is, let's start the effects.
             
-            if (Feast.Instance.Configuration.SkyDrop)
+            if (Feast.Instance.Configuration.Instance.SkyDrop)
             {
                 // Trigger timer for effects
-                RocketEffect plane = RocketEffectManager.GetEffectsById(Feast.Instance.Configuration.PlaneEffectId);
+                UnturnedEffect plane = UnturnedEffectManager.GetEffectsById(Feast.Instance.Configuration.Instance.PlaneEffectId);
                 if (plane == null)
                 {
                     Logger.Log("The skydrop plane bundle is not the server!  Cannot trigger the airdrop animation.  Just sending items.");
@@ -198,7 +195,7 @@ namespace ZaupFeast
 
         private void skyDrop(List<Vector3> pos)
         {
-            RocketEffect skyDrop = RocketEffectManager.GetEffectsById(Feast.Instance.Configuration.SkydropEffectId);
+            UnturnedEffect skyDrop = UnturnedEffectManager.GetEffectsById(Feast.Instance.Configuration.Instance.SkydropEffectId);
             foreach (Vector3 p in pos)
             {
                 skyDrop.Trigger(new Vector3(p.x, p.y + 45, p.z));
@@ -236,25 +233,25 @@ namespace ZaupFeast
 
         private void checkFeast()
         {
-            if (Feast.Instance.Configuration.Enabled)
+            if (Feast.Instance.Configuration.Instance.Enabled)
             {
                 if ((Feast.Instance.nextFeast - DateTime.Now).TotalSeconds - 300.0 <= 0.0 && (DateTime.Now - Feast.Instance.lastMsg).TotalSeconds >= 60.0)
                 {
                     byte b = Feast.Instance.msgNum;
                     if (b != 0)
                     {
-                        RocketChat.Say(Feast.Instance.Translate("coming_feast_msg", new object[] {
+                        UnturnedChat.Say(Feast.Instance.Translate("coming_feast_msg", new object[] {
                             Feast.Instance.nextLocation.Name,
                             Feast.Instance.msgNum
-                        }), RocketChat.GetColorFromName(Feast.Instance.Configuration.MessageColor, Color.red));
+                        }), UnturnedChat.GetColorFromName(Feast.Instance.Configuration.Instance.MessageColor, Color.red));
                         Feast.Instance.lastMsg = DateTime.Now;
                         Feast.Instance.msgNum -= 1;
                     }
                     else
                     {
-                        RocketChat.Say(Feast.Instance.Translate("now_feast_msg", new object[] {
+                        UnturnedChat.Say(Feast.Instance.Translate("now_feast_msg", new object[] {
                             Feast.Instance.nextLocation.Name
-                        }), RocketChat.GetColorFromName(Feast.Instance.Configuration.MessageColor, Color.red));
+                        }), UnturnedChat.GetColorFromName(Feast.Instance.Configuration.Instance.MessageColor, Color.red));
                         Feast.Instance.lastMsg = DateTime.Now;
                         Feast.Instance.runFeast();
                     }
@@ -263,7 +260,7 @@ namespace ZaupFeast
         }
         public void resetFeast()
         {
-            Feast.Instance.nextFeast = DateTime.Now.AddSeconds((double)UnityEngine.Random.Range(Feast.Instance.Configuration.MinDropTime, Feast.Instance.Configuration.MaxDropTime + 1));
+            Feast.Instance.nextFeast = DateTime.Now.AddSeconds((double)UnityEngine.Random.Range(Feast.Instance.Configuration.Instance.MinDropTime, Feast.Instance.Configuration.Instance.MaxDropTime + 1));
             Feast.Instance.msgNum = 5;
             Feast.Instance.lastMsg = DateTime.Now;
             Feast.Instance.nextLocation = Feast.Instance.locations[UnityEngine.Random.Range(0, Feast.Instance.locations.Count)];
@@ -271,7 +268,7 @@ namespace ZaupFeast
         }
         public void FixedUpdate()
         {
-            if (Feast.Instance.Configuration.Enabled && Feast.Instance.running) 
+            if (Feast.Instance.Configuration.Instance.Enabled && Feast.Instance.running) 
                 Feast.Instance.checkFeast();
         }
     }

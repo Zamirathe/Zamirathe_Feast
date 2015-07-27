@@ -71,8 +71,6 @@
     <Compile Include="CommandRunFeast.cs" />
     <Compile Include="ZaupFeast.cs" />
     <Compile Include="ZaupFeastConfiguration.cs" />
-    <Compile Include="FeastItem.cs" />
-    <Compile Include="Locs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
