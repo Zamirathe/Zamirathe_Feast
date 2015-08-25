@@ -141,10 +141,10 @@ namespace ZaupFeast
 
             // Figure out the base point of the feast drop.
             Vector3 p = Feast.Instance.nextLocation.Pos;
-            p.y = 500;
+            /*p.y = 500;
             RaycastHit hit;
             Physics.Raycast(p, Vector3.down, out hit, 500);
-            p = hit.point;
+            p = hit.point;*/
 
             // Get the ending item positions and items
             List<Vector3> drops = new List<Vector3>();
@@ -153,10 +153,13 @@ namespace ZaupFeast
             {
                 int item = UnityEngine.Random.Range(0, list.Count);
                 int num2 = list[item];
-                Vector3 pos = new Vector3();
-                pos.x += p.x + (float)UnityEngine.Random.Range((int)Feast.Instance.Configuration.Instance.DropRadius * -1, (int)Feast.Instance.Configuration.Instance.DropRadius + 1);
-                pos.z += p.z + (float)UnityEngine.Random.Range((int)Feast.Instance.Configuration.Instance.DropRadius * -1, (int)Feast.Instance.Configuration.Instance.DropRadius + 1);
-                pos.y += p.y + 1f;
+                Vector3 pos1 = new Vector3();
+                pos1.x += p.x + (float)UnityEngine.Random.Range((int)Feast.Instance.Configuration.Instance.DropRadius * -1, (int)Feast.Instance.Configuration.Instance.DropRadius + 1);
+                pos1.z += p.z + (float)UnityEngine.Random.Range((int)Feast.Instance.Configuration.Instance.DropRadius * -1, (int)Feast.Instance.Configuration.Instance.DropRadius + 1);
+                pos1.y = 200;
+                RaycastHit hit;
+                Physics.Raycast(pos1, Vector3.down, out hit, 500);
+                Vector3 pos = hit.point;
                 Item g = new Item((ushort)num2, true);
                 //drops[i] = pos;
                 drops.Add(pos);
