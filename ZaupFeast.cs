@@ -101,9 +101,10 @@ namespace ZaupFeast
 
             // Remove any unused map locations from the location list.
             List<string> locations = usedlocs.Distinct().ToList();
+            List<Locs> locs2 = this.locations;
             if (!locations.Contains("all") && !locations.Contains("All"))
             {
-                foreach (Locs a in this.locations)
+                foreach (Locs a in locs2)
                 {
                     if (locations.IndexOf(a.Name) == -1)
                     {
