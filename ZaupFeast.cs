@@ -65,7 +65,7 @@ namespace ZaupFeast
             this.effectNum = 0;
 
             // Did we load the configuration file?  If not, just end.
-            if (this.Configuration.Instance.Items == null || !this.Configuration.Instance.Items.Any())
+            if (Configuration.Instance.Items == null || ! Configuration.Instance.Items.Any())
             {
                 Logger.Log("Failed to load the configuration file.  Turned off feast.  Restart to try again.");
                 return;
@@ -77,21 +77,21 @@ namespace ZaupFeast
                 LevelNodes.load();
             foreach (Node n in LevelNodes.nodes)
             {
-                if (n.NodeType == ENodeType.LOCATION)
+                if (n.type == ENodeType.LOCATION)
                 {
-                    Locs loc = new Locs(n.point, ((LocationNode)n).Name);
+                    Locs loc = new Locs(n.point, ((LocationNode)n).name);
                     this.locations.Add(loc);
                 }
             }
 
             // Get all the locations used by the items and remove any invalid items.
             List<string> usedlocs = new List<string>();
-            foreach (FeastItem f in this.Configuration.Instance.Items)
+            foreach (FeastItem f in Configuration.Instance.Items)
             {
                 ItemAsset itemAsset = (ItemAsset)Assets.find(EAssetType.ITEM, f.Id);
                 if (itemAsset == null && itemAsset.isPro)
                 {
-                    this.Configuration.Instance.Items.Remove(f);
+                    Configuration.Instance.Items.Remove(f);
                 }
                 else
                 {
