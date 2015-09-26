@@ -21,7 +21,7 @@ namespace ZaupFeast
 {
     internal class Feast : RocketPlugin<FeastConfiguration>
     {
-        public static Feast Instance;
+        public static Feast Instance = null;
         private DateTime nextFeast;
         private List<Locs> locations;
         internal Locs nextLocation;
@@ -237,29 +237,33 @@ namespace ZaupFeast
 
         private void checkFeast()
         {
-            if (Feast.Instance.Configuration.Instance.Enabled)
+            try
             {
-                if ((Feast.Instance.nextFeast - DateTime.Now).TotalSeconds - 300.0 <= 0.0 && (DateTime.Now - Feast.Instance.lastMsg).TotalSeconds >= 60.0)
+
+
+                if (Feast.Instance.Configuration.Instance.Enabled)
                 {
-                    byte b = Feast.Instance.msgNum;
-                    if (b != 0)
+                    if ((Feast.Instance.nextFeast - DateTime.Now).TotalSeconds - 300.0 <= 0.0 && (DateTime.Now - Feast.Instance.lastMsg).TotalSeconds >= 60.0)
                     {
-                        UnturnedChat.Say(Feast.Instance.Translate("coming_feast_msg", new object[] {
-                            Feast.Instance.nextLocation.Name,
-                            Feast.Instance.msgNum
-                        }), UnturnedChat.GetColorFromName(Feast.Instance.Configuration.Instance.MessageColor, Color.red));
-                        Feast.Instance.lastMsg = DateTime.Now;
-                        Feast.Instance.msgNum -= 1;
-                    }
-                    else
-                    {
-                        UnturnedChat.Say(Feast.Instance.Translate("now_feast_msg", new object[] {
-                            Feast.Instance.nextLocation.Name
-                        }), UnturnedChat.GetColorFromName(Feast.Instance.Configuration.Instance.MessageColor, Color.red));
-                        Feast.Instance.lastMsg = DateTime.Now;
-                        Feast.Instance.runFeast();
+                        byte b = Feast.Instance.msgNum;
+                        if (b != 0)
+                        {
+                            UnturnedChat.Say(Feast.Instance.Translate("coming_feast_msg",Feast.Instance.nextLocation.Name, Feast.Instance.msgNum), UnturnedChat.GetColorFromName(Feast.Instance.Configuration.Instance.MessageColor, Color.red));
+                            Feast.Instance.lastMsg = DateTime.Now;
+                            Feast.Instance.msgNum -= 1;
+                        }
+                        else
+                        {
+                            UnturnedChat.Say(Feast.Instance.Translate("now_feast_msg", Feast.Instance.nextLocation.Name), UnturnedChat.GetColorFromName(Feast.Instance.Configuration.Instance.MessageColor, Color.red));
+                            Feast.Instance.lastMsg = DateTime.Now;
+                            Feast.Instance.runFeast();
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException(ex, "Exception in checkFeast");
             }
         }
         public void resetFeast()
@@ -272,8 +276,15 @@ namespace ZaupFeast
         }
         public void FixedUpdate()
         {
-            if (Feast.Instance.Configuration.Instance.Enabled && Feast.Instance.running) 
-                Feast.Instance.checkFeast();
+            try
+            {
+                if (Feast.Instance != null && Feast.Instance.Configuration.Instance.Enabled && Feast.Instance.running)
+                    Feast.Instance.checkFeast();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException(ex, "Exception in FixedUpdate");
+            }
         }
     }
 
