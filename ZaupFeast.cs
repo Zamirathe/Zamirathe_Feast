@@ -79,7 +79,7 @@ namespace ZaupFeast
             {
                 if (n.type == ENodeType.LOCATION)
                 {
-                    Locs loc = new Locs(n.point, ((LocationNode)n).name);
+                    Locs loc = new Locs(n.point, ((LocationNode)n).Name);
                     this.locations.Add(loc);
                 }
             }
