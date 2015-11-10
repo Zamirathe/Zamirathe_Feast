@@ -23,7 +23,7 @@ namespace ZaupFeast
     {
         public static Feast Instance = null;
         private DateTime nextFeast;
-        private List<Locs> locations;
+        private List<Locs> locations = new List<Locs>();
         internal Locs nextLocation;
         private byte msgNum;
         private DateTime lastMsg;
@@ -71,51 +71,8 @@ namespace ZaupFeast
                 return;
             }
 
-            // Get all the map locations.
-            this.locations = new List<Locs>();
             if (LevelNodes.nodes == null)
                 LevelNodes.load();
-            foreach (Node n in LevelNodes.nodes)
-            {
-                if (n.type == ENodeType.LOCATION)
-                {
-                    Locs loc = new Locs(n.point, ((LocationNode)n).Name);
-                    this.locations.Add(loc);
-                }
-            }
-
-            // Get all the locations used by the items and remove any invalid items.
-            List<string> usedlocs = new List<string>();
-            foreach (FeastItem f in Configuration.Instance.Items)
-            {
-                ItemAsset itemAsset = (ItemAsset)Assets.find(EAssetType.ITEM, f.Id);
-                if (itemAsset == null && itemAsset.isPro)
-                {
-                    Configuration.Instance.Items.Remove(f);
-                }
-                else
-                {
-                    usedlocs = usedlocs.Concat(f.Location).ToList();
-                }
-            }
-
-            // Remove any unused map locations from the location list.
-            List<string> locations = usedlocs.Distinct().ToList();
-            List<Locs> locs2 = this.locations;
-            if (!locations.Contains("all") && !locations.Contains("All"))
-            {
-                foreach (Locs a in locs2)
-                {
-                    if (locations.IndexOf(a.Name) == -1)
-                    {
-                        this.locations.Remove(a);
-                    }
-                }
-            }
-
-            // Now that it is all set up, we'll all the plugin to start running.  This was just to keep the FixedUpdate from running before the top finished running.
-            this.running = true;
-            this.resetFeast();
         }
 
         protected override void Unload()
@@ -274,10 +231,65 @@ namespace ZaupFeast
             Feast.Instance.nextLocation = Feast.Instance.locations[UnityEngine.Random.Range(0, Feast.Instance.locations.Count)];
             Logger.Log("The next feast will be at " + Feast.Instance.nextLocation.Name + " at " + Feast.Instance.nextFeast);
         }
+
+        private void initialiseNodes()
+        {
+            foreach (Node n in LevelNodes.nodes.ToList())
+            {
+                if (n.type == ENodeType.LOCATION)
+                {
+                    Locs loc = new Locs(n.point, ((LocationNode)n).Name);
+                    this.locations.Add(loc);
+                }
+            }
+
+            // Get all the locations used by the items and remove any invalid items.
+            List<string> usedlocs = new List<string>();
+            foreach (FeastItem f in Configuration.Instance.Items)
+            {
+                ItemAsset itemAsset = (ItemAsset)Assets.find(EAssetType.ITEM, f.Id);
+                if (itemAsset == null && itemAsset.isPro)
+                {
+                    Configuration.Instance.Items.Remove(f);
+                }
+                else
+                {
+                    usedlocs = usedlocs.Concat(f.Location).ToList();
+                }
+            }
+
+            // Remove any unused map locations from the location list.
+            List<string> locations = usedlocs.Distinct().ToList();
+            List<Locs> locs2 = this.locations;
+            if (!locations.Contains("all") && !locations.Contains("All"))
+            {
+                foreach (Locs a in locs2)
+                {
+                    if (locations.IndexOf(a.Name) == -1)
+                    {
+                        this.locations.Remove(a);
+                    }
+                }
+            }
+
+            // Now that it is all set up, we'll all the plugin to start running.  This was just to keep the FixedUpdate from running before the top finished running.
+            this.running = true;
+            this.resetFeast();
+        }
+
+        
+
+        private bool nodesInitialised = false;
+        private DateTime startTime = DateTime.Now;
+
         public void FixedUpdate()
         {
             try
             {
+                if (!nodesInitialised && (DateTime.Now - startTime).TotalSeconds > 5)
+                {
+                    initialiseNodes();
+                }
                 if (Feast.Instance != null && Feast.Instance.Configuration.Instance.Enabled && Feast.Instance.running)
                     Feast.Instance.checkFeast();
             }
