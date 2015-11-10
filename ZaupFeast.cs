@@ -234,6 +234,7 @@ namespace ZaupFeast
 
         private void initialiseNodes()
         {
+            nodesInitialised = true;
             foreach (Node n in LevelNodes.nodes.ToList())
             {
                 if (n.type == ENodeType.LOCATION)
