@@ -235,7 +235,7 @@ namespace ZaupFeast
         private void initialiseNodes()
         {
             nodesInitialised = true;
-            foreach (Node n in LevelNodes.nodes.ToList())
+            foreach (Node n in LevelNodes.nodes)
             {
                 if (n.type == ENodeType.LOCATION)
                 {
@@ -262,7 +262,7 @@ namespace ZaupFeast
 
             // Remove any unused map locations from the location list.
             List<string> locations = usedlocs.Distinct().ToList();
-            List<Locs> locs2 = this.locations;
+            List<Locs> locs2 = this.locations.ToList();
             if (!locations.Contains("all") && !locations.Contains("All"))
             {
                 foreach (Locs a in locs2)
