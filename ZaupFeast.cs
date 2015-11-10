@@ -246,7 +246,7 @@ namespace ZaupFeast
 
             // Get all the locations used by the items and remove any invalid items.
             List<string> usedlocs = new List<string>();
-            foreach (FeastItem f in Configuration.Instance.Items)
+            foreach (FeastItem f in Configuration.Instance.Items.ToList())
             {
                 ItemAsset itemAsset = (ItemAsset)Assets.find(EAssetType.ITEM, f.Id);
                 if (itemAsset == null && itemAsset.isPro)
@@ -258,6 +258,7 @@ namespace ZaupFeast
                     usedlocs = usedlocs.Concat(f.Location).ToList();
                 }
             }
+
 
             // Remove any unused map locations from the location list.
             List<string> locations = usedlocs.Distinct().ToList();
