@@ -232,7 +232,7 @@ namespace ZaupFeast
             Logger.Log("The next feast will be at " + Feast.Instance.nextLocation.Name + " at " + Feast.Instance.nextFeast);
         }
 
-        private void initialiseNodes()
+        private void initializeNodes()
         {
             nodesInitialised = true;
             foreach (Node n in LevelNodes.nodes)
@@ -288,12 +288,19 @@ namespace ZaupFeast
         {
             try
             {
-                if (!nodesInitialised && (DateTime.Now - startTime).TotalSeconds > 5)
+                if(State == PluginState.Loaded)
                 {
-                    initialiseNodes();
+                    if (nodesInitialised)
+                    {
+                        if (Feast.Instance.Configuration.Instance.Enabled && Feast.Instance.running)
+                            Feast.Instance.checkFeast();
+                    }
+                    else
+                    {
+                        if ((DateTime.Now - startTime).TotalSeconds > 5)
+                            initializeNodes();
+                    }
                 }
-                if (Feast.Instance != null && Feast.Instance.Configuration.Instance.Enabled && Feast.Instance.running)
-                    Feast.Instance.checkFeast();
             }
             catch (Exception ex)
             {
