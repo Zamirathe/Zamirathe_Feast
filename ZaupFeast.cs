@@ -196,10 +196,13 @@ namespace ZaupFeast
         {
             try
             {
-
-
+                if (Feast.Instance == null) Logger.LogError("Feast.Instance is NULL");
+                if (Feast.Instance.Configuration == null) Logger.LogError("(Feast.Instance.Configuration is NULL");
+                if (Feast.Instance.Configuration.Instance == null) Logger.LogError("Feast.Instance.Configuration.Instance is NULL");
                 if (Feast.Instance.Configuration.Instance.Enabled)
                 {
+                    if (Feast.Instance.nextFeast == null) Logger.LogError("Feast.Instance.nextFeast is NULL");
+                    if (Feast.Instance.lastMsg == null) Logger.LogError("Feast.Instance.lastMsg is NULL");
                     if ((Feast.Instance.nextFeast - DateTime.Now).TotalSeconds - 300.0 <= 0.0 && (DateTime.Now - Feast.Instance.lastMsg).TotalSeconds >= 60.0)
                     {
                         byte b = Feast.Instance.msgNum;
@@ -235,6 +238,7 @@ namespace ZaupFeast
         private void initializeNodes()
         {
             nodesInitialised = true;
+            if (LevelNodes.nodes == null) Logger.LogError("Doh! LevelNodes.nodes is NULL");
             foreach (Node n in LevelNodes.nodes)
             {
                 if (n.type == ENodeType.LOCATION)
@@ -246,6 +250,10 @@ namespace ZaupFeast
 
             // Get all the locations used by the items and remove any invalid items.
             List<string> usedlocs = new List<string>();
+
+            if (Configuration == null) Logger.LogError("Doh! Configuration is NULL");
+            if (Configuration.Instance == null) Logger.LogError("Doh! Configuration.Instance is NULL");
+            if (Configuration.Instance.Items == null) Logger.LogError("Configuration.Instance.Items is NULL");
             foreach (FeastItem f in Configuration.Instance.Items.ToList())
             {
                 ItemAsset itemAsset = (ItemAsset)Assets.find(EAssetType.ITEM, f.Id);
