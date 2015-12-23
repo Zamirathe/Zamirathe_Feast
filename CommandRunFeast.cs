@@ -18,10 +18,6 @@ namespace ZaupFeast
         {
             get { return "Immediately starts the feast"; }
         }
-        public bool AllowFromConsole
-        {
-            get { return true; }
-        }
         public string Syntax
         {
             get { return ""; }
@@ -34,6 +30,15 @@ namespace ZaupFeast
         {
             get { return new List<string>(); }
         }
+
+        public AllowedCaller AllowedCaller
+        {
+            get
+            {
+                return AllowedCaller.Both;
+            }
+        }
+
         // Run the command.
         public void Execute(IRocketPlayer caller, string[] command)
         {
