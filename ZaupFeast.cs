@@ -139,10 +139,13 @@ namespace ZaupFeast
                     Logger.Log("The skydrop plane bundle is not the server!  Cannot trigger the airdrop animation.  Just sending items.");
                     this.spawnItems(this.items, drops);
                 }
-                Vector3 loc = new Vector3(Feast.Instance.nextLocation.Pos.x, Feast.Instance.nextLocation.Pos.y + 50, Feast.Instance.nextLocation.Pos.z + 500);
-                plane.Trigger(loc);
-                Feast.Instance.effectNum = 1;
-                Feast.Instance.Timer.Start();
+                else
+                {
+                    Vector3 loc = new Vector3(Feast.Instance.nextLocation.Pos.x, Feast.Instance.nextLocation.Pos.y + 50, Feast.Instance.nextLocation.Pos.z + 500);
+                    plane.Trigger(loc);
+                    Feast.Instance.effectNum = 1;
+                    Feast.Instance.Timer.Start();
+                }
             }
             else
             {
