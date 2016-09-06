@@ -260,7 +260,7 @@ namespace ZaupFeast
             foreach (FeastItem f in Configuration.Instance.Items.ToList())
             {
                 ItemAsset itemAsset = (ItemAsset)Assets.find(EAssetType.ITEM, f.Id);
-                if (itemAsset == null && itemAsset.isPro)
+                if (itemAsset == null || itemAsset.isPro)
                 {
                     Configuration.Instance.Items.Remove(f);
                 }
